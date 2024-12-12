@@ -4,7 +4,7 @@ function Cart() {
     const navigator=useNavigate();
   const [cartItems, setCartItems] = useState([
     { id: 1, name: "Product 1", price: 100, quantity: 1 },
-    { id: 2, name: "Product 2", price: 200, quantity: 2 },
+    { id: 2, name: "Product 2", price: 500, quantity: 2 },
     { id: 3, name: "Product 3", price: 150, quantity: 1 },
   ]);
 

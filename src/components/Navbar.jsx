@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux"; // For accessing the store state
 
 function Navbar() {
+
+  // Access cart totalItems from the Redux store
+  const cartCount = useSelector((state) => state.cart.totalItems);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   const [isOpen, setIsOpen] = useState(false); // For mobile menu
   const [showSearch, setShowSearch] = useState(false); // For toggling search input visibility
   const [searchTerm, setSearchTerm] = useState(""); // For managing search input state
-  const [cartCount, setCartCount] = useState(3); // Example cart count
+  // const [cartCount, setCartCount] = useState(3); // Example cart count
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -145,22 +151,22 @@ function Navbar() {
           {/* Login SignUp */}
           <div >
           <ul className="md:flex md:items-center space-y-4 md:space-y-0 md:space-x-6 md:mt-0">
-          <li>
+          {!isLoggedIn&&<li>
             <Link
               to="/login"
               className="block py-2 px-3 rounded bg-green-500 hover:bg-green-600"
             >
               Login
             </Link>
-          </li>
-          <li>
+          </li>}
+          {isLoggedIn&&<li>
             <Link
               to="/signup"
               className="block py-2 px-3 rounded bg-yellow-500 hover:bg-yellow-600"
             >
               Signup
             </Link>
-          </li>
+          </li>}
           </ul>
         </div>
 
