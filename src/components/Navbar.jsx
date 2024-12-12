@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // For mobile menu
+  const [showSearch, setShowSearch] = useState(false); // For toggling search input visibility
+  const [searchTerm, setSearchTerm] = useState(""); // For managing search input state
   const [cartCount, setCartCount] = useState(3); // Example cart count
-  const [searchTerm, setSearchTerm] = useState(""); // State to manage search input
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -98,26 +99,48 @@ function Navbar() {
           </button>
         </form>
 
-        {/* Search Icon for Mobile */}
-        <button
-          className="md:hidden ml-4 focus:outline-none"
-          onClick={() => console.log("Search Icon Clicked!")}
-        >
-          <svg
-            className="w-6 h-6 text-white hover:text-gray-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+        {/* Search Icon and Input for Mobile */}
+        <div className="relative md:hidden">
+          <button
+            className="focus:outline-none"
+            onClick={() => setShowSearch(!showSearch)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-4.35-4.35m-1.55-1.55a7 7 0 111.55-1.55l4.35 4.35z"
-            />
-          </svg>
-        </button>
+            <svg
+              className="w-6 h-6 text-white hover:text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-4.35-4.35m-1.55-1.55a7 7 0 111.55-1.55l4.35 4.35z"
+              />
+            </svg>
+          </button>
+          {showSearch && (
+            <form
+              onSubmit={handleSearch}
+              className="absolute top-8 right-0 bg-white p-2 rounded shadow-lg flex items-center"
+            >
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="px-3 py-2 rounded-l-lg text-black focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-700 hover:bg-blue-800 rounded-r-lg text-white"
+              >
+                Go
+              </button>
+            </form>
+          )}
+        </div>
 
         {/* Shopping Cart */}
         <div className="relative flex items-center ml-4">
