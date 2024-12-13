@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const allProducts = [
-  // Simulated product data (for demonstration)
-  ...Array.from({ length: 50 }, (_, index) => ({
-    id: index + 1,
-    name: `Product ${index + 1}`,
-    description: `Description for product ${index + 1}`,
-    price: `$${(index + 1) * 5}`,
-    image: "https://via.placeholder.com/150",
-  })),
-];
+
 
 function Products() {
   const [products, setProducts] = useState([]); // Initial product list
@@ -22,24 +13,53 @@ function Products() {
   }, []);
 
   // Function to load more products
+  // const loadMoreProducts = () => {
+  //   if (!hasMore || loading) return;
+
+  //   setLoading(true);
+
+  //   setTimeout(() => {
+  //     const currentLength = products.length;
+  //     const moreProducts = allProducts.slice(
+  //       currentLength,
+  //       currentLength + 10 // Fetch 10 products at a time
+  //     );
+  //     setProducts((prev) => [...prev, ...moreProducts]);
+  //     setLoading(false);
+  //     if (products.length + moreProducts.length >= allProducts.length) {
+  //       setHasMore(false); // No more products to load
+  //     }
+  //   }, 1000); // Simulate network delay
+  // };
+
+
   const loadMoreProducts = () => {
     if (!hasMore || loading) return;
-
+  
     setLoading(true);
-
-    setTimeout(() => {
-      const currentLength = products.length;
-      const moreProducts = allProducts.slice(
-        currentLength,
-        currentLength + 10 // Fetch 10 products at a time
-      );
-      setProducts((prev) => [...prev, ...moreProducts]);
-      setLoading(false);
-      if (products.length + moreProducts.length >= allProducts.length) {
-        setHasMore(false); // No more products to load
-      }
-    }, 1000); // Simulate network delay
+  
+    const offset = products.length; // Current number of loaded products
+    const limit = 10; // Fetch 10 products at a time
+  
+    fetch(`http://localhost:8080/api/products?offset=${offset}&limit=${limit}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        setProducts((prev) => [...prev, ...data]);
+        setLoading(false);
+        if (data.length < limit) {
+          setHasMore(false); // No more products to load
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+        setLoading(false);
+      });
   };
+  
+  
+
+
 
   // Infinite scroll listener
   useEffect(() => {

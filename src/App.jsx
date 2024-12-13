@@ -8,11 +8,13 @@ import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Alert from "./components/Alert";
 
 export default function App() {
   return (
     <Router>
       <Navbar/>
+      <Alert/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
