@@ -44,8 +44,7 @@ function Products() {
     fetch(`http://localhost:8080/api/products?offset=${offset}&limit=${limit}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
-        setProducts((prev) => [...prev, ...data]);
+        setProducts(products.concat(data));
         setLoading(false);
         if (data.length < limit) {
           setHasMore(false); // No more products to load
