@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 
 
-function Products() {
+function Products(props) {
   const [products, setProducts] = useState([]); // Initial product list
   const [hasMore, setHasMore] = useState(true); // Check if more products are available
   const [loading, setLoading] = useState(false); // Loading state
@@ -12,28 +12,7 @@ function Products() {
     loadMoreProducts();
   }, []);
 
-  // Function to load more products
-  // const loadMoreProducts = () => {
-  //   if (!hasMore || loading) return;
-
-  //   setLoading(true);
-
-  //   setTimeout(() => {
-  //     const currentLength = products.length;
-  //     const moreProducts = allProducts.slice(
-  //       currentLength,
-  //       currentLength + 10 // Fetch 10 products at a time
-  //     );
-  //     setProducts((prev) => [...prev, ...moreProducts]);
-  //     setLoading(false);
-  //     if (products.length + moreProducts.length >= allProducts.length) {
-  //       setHasMore(false); // No more products to load
-  //     }
-  //   }, 1000); // Simulate network delay
-  // };
-
-
-  const loadMoreProducts = () => {
+  const loadMoreProducts = async () => {
     if (!hasMore || loading) return;
   
     setLoading(true);
@@ -41,17 +20,20 @@ function Products() {
     const offset = products.length; // Current number of loaded products
     const limit = 10; // Fetch 10 products at a time
   
-    fetch(`http://localhost:8080/api/products?offset=${offset}&limit=${limit}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setProducts(products.concat(data));
+    props.setProgress(20)
+    props.setProgress(70)
+    const response= await fetch(`http://localhost:8080/api/products?offset=${offset}&limit=${limit}`)
+    .then((response) => response.json())
+    .then((data) => {
+      setProducts(products.concat(data));
+      props.setProgress(100)
         setLoading(false);
         if (data.length < limit) {
           setHasMore(false); // No more products to load
         }
       })
       .catch((error) => {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching products:", error,response);
         setLoading(false);
       });
   };

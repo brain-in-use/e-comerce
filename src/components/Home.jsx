@@ -1,27 +1,31 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 
-function Home() {
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Product A",
-      image: "https://via.placeholder.com/300",
-      price: "$29.99",
-    },
-    {
-      id: 2,
-      name: "Product B",
-      image: "https://via.placeholder.com/300",
-      price: "$39.99",
-    },
-    {
-      id: 3,
-      name: "Product C",
-      image: "https://via.placeholder.com/300",
-      price: "$49.99",
-    },
-  ];
+function Home(props) {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        props.setProgress(20);
+
+        const response = await fetch(`http://localhost:8080/api/products?offset=0&limit=3`);
+        props.setProgress(50);
+
+        const data = await response.json();
+
+        setFeaturedProducts(data);
+        props.setProgress(100);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        props.setProgress(100); // Complete progress even if there's an error
+      } 
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
+
 
   return (
     <div className="bg-gray-100 min-h-screen">
