@@ -22,7 +22,7 @@ export default function App() {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Alert/>
+      {/* <Alert/> */}
       <Routes>
         <Route path="/" element={<Home setProgress={setProgress}/>} />
         <Route path="/products" element={<Products setProgress={setProgress}/>} />

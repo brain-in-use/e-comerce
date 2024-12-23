@@ -65,7 +65,7 @@ function Products(props) {
             className="border rounded-lg shadow-md p-4 hover:shadow-lg transition"
           >
             <img
-              src={product.image}
+              src="https://drive.google.com/thumbnail?id=1tV4oomjUNZFwpusQdD96pGbGcNauK-SH=w1000"
               alt={product.name}
               className="w-full h-48 object-cover rounded"
             />
