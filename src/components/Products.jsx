@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import axios from 'axios';
 
 
 function Products(props) {
@@ -39,7 +39,30 @@ function Products(props) {
   };
   
   
+  const addToCart = async (productId) => {
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      alert("Please login to add items to cart");
+      return;
+    }
 
+    try {
+      const response = await axios.put(
+        "http://localhost:8080/api/addProduct",
+        { productId: productId }, // request body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert("Product added to cart successfully!");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add product to cart");
+    }
+  };
 
 
   // Infinite scroll listener
@@ -72,7 +95,7 @@ function Products(props) {
             <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
             <p className="text-gray-600 mt-1">{product.description}</p>
             <p className="text-blue-500 font-bold mt-2">{product.price}</p>
-            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button onClick={() => addToCart(product.id)} className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
               Add to Cart
             </button>
           </div>
