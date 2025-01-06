@@ -9,7 +9,7 @@ function About() {
           Welcome to our eCommerce platform! We are dedicated to providing the best shopping experience
           with a wide range of high-quality products and exceptional customer service. Our mission is
           to make online shopping seamless, enjoyable, and trustworthy. Thank you for choosing us as
-          your shopping destination.
+          your shopping destination!
         </p>
       </div>
     </div>
